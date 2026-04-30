@@ -1,5 +1,7 @@
 # Class Pruner Maven Plugin
 
+NB: The first released version is 3.0.1 so that it does not conflict with the released 3.0.0 version (which still was part of the full QuickFIX/J release). From now on the plugin will be separate from QFJ.
+
 This plugin has a very specialised purpose. 
 
 The purpose is to minimise the number of Java classes and generated sources for packaging artefacts of specific FIX versions. This is needed because the introduction of FIX Latest standard results in a very large number of Fields that in turn requires excessive memory and build time for the creation of Javadoc artefacts.
