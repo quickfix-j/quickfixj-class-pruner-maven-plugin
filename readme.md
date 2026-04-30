@@ -24,7 +24,7 @@ It can be used as follows.
         <!-- prune classes that are not in the FIX Dictionaries specified below -->
         <!-- this step is redundant if quickfixj-messages-all-excluding-latest module is run  -->
         <groupId>org.quickfixj</groupId>
-        <artifactId>class-pruner-maven-plugin</artifactId>
+        <artifactId>quickfixj-class-pruner-maven-plugin</artifactId>
         <version>${project.version}</version>
         <executions>
             <execution>
