@@ -53,6 +53,8 @@
 		<maven-plugin-annotations.version>3.15.2</maven-plugin-annotations.version>
 		<file-management.version>3.2.0</file-management.version>
 		<junit.jupiter.version>5.14.4</junit.jupiter.version>
+		<guava.version>33.7.1-jre</guava.version>
+		<commons-io.version>2.19.0</commons-io.version>
 		<maven-plugin-testing-harness.version>3.5.1</maven-plugin-testing-harness.version>
 		<maven-surefire-plugin-version>3.6.1</maven-surefire-plugin-version>
 		<maven-compiler-plugin-version>3.15.0</maven-compiler-plugin-version>
@@ -71,24 +73,6 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.maven</groupId>
-			<artifactId>maven-core</artifactId>
-			<version>${maven-libs-version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.maven</groupId>
-			<artifactId>maven-artifact</artifactId>
-			<version>${maven-libs-version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.maven</groupId>
-			<artifactId>maven-compat</artifactId>
-			<version>${maven-libs-version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.apache.maven.plugin-tools</groupId>
 			<artifactId>maven-plugin-annotations</artifactId>
 			<version>${maven-plugin-annotations.version}</version>
@@ -99,21 +83,33 @@
 			<version>${file-management.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.junit.vintage</groupId>
-			<artifactId>junit-vintage-engine</artifactId>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
 			<version>${junit.jupiter.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>${guava.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>${commons-io.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.maven</groupId>
+			<artifactId>maven-core</artifactId>
+			<version>${maven-libs-version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.maven.plugin-testing</groupId>
 			<artifactId>maven-plugin-testing-harness</artifactId>
 			<version>${maven-plugin-testing-harness.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.codehaus.plexus</groupId>
-			<artifactId>plexus-xml</artifactId>
-			<version>4.1.1</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

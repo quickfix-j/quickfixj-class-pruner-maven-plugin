@@ -1,10 +1,10 @@
 package org.quickfixj;
 
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,14 +14,16 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.maven.plugin.testing.MojoRule;
+import org.apache.maven.api.plugin.testing.InjectMojo;
+import org.apache.maven.api.plugin.testing.MojoExtension;
+import org.apache.maven.api.plugin.testing.MojoTest;
 import org.apache.maven.shared.model.fileset.FileSet;
-import org.junit.After;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 
 import com.google.common.io.Files;
 
+@MojoTest
 public class ClassPrunerMojoTest
 {
 	private List<String> classesList = new ArrayList<String>(Arrays.asList(
@@ -291,21 +293,7 @@ public class ClassPrunerMojoTest
     private File classesDirectory;
     private File generatedSourcesDirectory;
     
-    @Rule
-    public MojoRule rule = new MojoRule()
-    {
-        @Override
-        protected void before() throws Throwable 
-        {
-        }
-
-        @Override
-        protected void after()
-        {
-        }
-    };
-    
-	@After
+	@AfterEach
 	public void clearDown() throws Exception {
 		ClassPrunerMojoTest.clearDownDirectory(generatedSourcesDirectory);
 		ClassPrunerMojoTest.clearDownDirectory(classesDirectory);
@@ -326,17 +314,16 @@ public class ClassPrunerMojoTest
      * @throws Exception if any
      */
     @Test
-    public void testPrune()
+    public void testPrune(@InjectMojo(goal = "prune", pom = "classpath:/project-to-test/pom.xml") ClassPrunerMojo myMojo)
             throws Exception
     {
         File pom = new File("target/test-classes/project-to-test/");
         assertNotNull( pom );
         assertTrue( pom.exists() );
 
-        ClassPrunerMojo myMojo = ( ClassPrunerMojo ) rule.lookupConfiguredMojo( pom, "prune" );
         assertNotNull( myMojo );
 
-        classesDirectory = ( File ) rule.getVariableValueFromObject( myMojo, "classesDirectory" );
+        classesDirectory = MojoExtension.getVariableValueFromObject( myMojo, "classesDirectory" );
         assertNotNull( classesDirectory );
         if (!classesDirectory.exists()) {
         	classesDirectory.mkdirs();
@@ -346,7 +333,7 @@ public class ClassPrunerMojoTest
         createFilesForTest(classesList, classesDirectory, ".class");
         createFilesForTest(someFieldNamesThatShouldBePruned, classesDirectory, ".class");
 
-        generatedSourcesDirectory = ( File ) rule.getVariableValueFromObject( myMojo, "generatedSourcesDirectory" );
+        generatedSourcesDirectory = MojoExtension.getVariableValueFromObject( myMojo, "generatedSourcesDirectory" );
         assertNotNull( generatedSourcesDirectory );
         if (!generatedSourcesDirectory.exists()) {
         	generatedSourcesDirectory.mkdirs();
@@ -357,7 +344,7 @@ public class ClassPrunerMojoTest
         
         myMojo.execute();        
         
-        Object variableValueFromObject = rule.getVariableValueFromObject( myMojo, "fileset" );
+        Object variableValueFromObject = MojoExtension.getVariableValueFromObject( myMojo, "fileset" );
         FileSet dictionaryFileSet = ( FileSet ) variableValueFromObject;
         assertNotNull( dictionaryFileSet );
 
@@ -405,4 +392,3 @@ public class ClassPrunerMojoTest
 	}
 
 }
-
