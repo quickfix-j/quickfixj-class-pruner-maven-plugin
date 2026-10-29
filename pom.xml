@@ -200,7 +200,7 @@
 				<version>${maven-surefire-plugin-version}</version>
 				<configuration>
 					<systemPropertyVariables>
-						<org.slf4j.simpleLogger.defaultLogLevel>debug</org.slf4j.simpleLogger.defaultLogLevel>
+						<org.slf4j.simpleLogger.defaultLogLevel>info</org.slf4j.simpleLogger.defaultLogLevel>
 						<org.slf4j.simpleLogger.showThreadName>false</org.slf4j.simpleLogger.showThreadName>
 						<org.slf4j.simpleLogger.showLogName>false</org.slf4j.simpleLogger.showLogName>
 						<org.slf4j.simpleLogger.levelInBrackets>true</org.slf4j.simpleLogger.levelInBrackets>
