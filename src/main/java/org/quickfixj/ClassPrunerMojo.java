@@ -100,20 +100,21 @@ public class ClassPrunerMojo extends AbstractMojo {
     }
 
     private void pruneClasses(Set<String> fieldNames) throws IOException {
-        prune(fieldNames, this.classesDirectory, ".class", "Java class");
+        prune(fieldNames, this.classesDirectory, ".class", "Java class", "Java classes");
     }
 
     private void pruneGeneratedSources(Set<String> fieldNames) throws IOException {
-        prune(fieldNames, this.generatedSourcesDirectory, ".java", "Java source");
+        prune(fieldNames, this.generatedSourcesDirectory, ".java", "Java source", "Java sources");
     }
     
-    private void prune(Set<String> fieldNames, File targetDirectory, String fileSuffix, String descriptor) throws IOException {
+    private void prune(Set<String> fieldNames, File targetDirectory, String fileSuffix, String descriptor,
+            String pluralDescriptor) throws IOException {
         Set<String> files = listFiles(targetDirectory);
         Set<String> namesOfFilesToKeep =  fieldNames.stream().map(file -> new StringBuilder(file).append(fileSuffix).toString()).collect(Collectors.toSet());
         files.removeAll(namesOfFilesToKeep);
         List<String> fileList = new ArrayList<String>(files);
         Collections.sort(fileList);
-        this.getLog().info(descriptor + "s to delete : " + fileList.size());
+        this.getLog().info(pluralDescriptor + " to delete : " + fileList.size());
         for (String fileName  : fileList) {
             this.getLog().debug("Deleting " + descriptor + " : " + fileName);
             File file = new File( targetDirectory, fileName );
