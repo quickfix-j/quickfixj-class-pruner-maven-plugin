@@ -54,7 +54,7 @@
 		<file-management.version>3.2.0</file-management.version>
 		<junit.jupiter.version>5.14.4</junit.jupiter.version>
 		<commons-io.version>2.22.0</commons-io.version>
-		<slf4j.version>2.0.19</slf4j.version>
+		<slf4j.version>2.0.20</slf4j.version>
 		<maven-plugin-testing-harness.version>3.5.1</maven-plugin-testing-harness.version>
 		<maven-surefire-plugin-version>3.6.1</maven-surefire-plugin-version>
 		<maven-compiler-plugin-version>3.16.0</maven-compiler-plugin-version>
