@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Consumer;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.maven.api.plugin.testing.InjectMojo;
@@ -20,8 +19,6 @@ import org.apache.maven.api.plugin.testing.MojoTest;
 import org.apache.maven.shared.model.fileset.FileSet;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-
-import com.google.common.io.Files;
 
 @MojoTest
 public class ClassPrunerMojoTest
@@ -371,24 +368,12 @@ public class ClassPrunerMojoTest
     }
 
 	private static void createFilesForTest(List<String> classesList, File classesDirectory, String extension) throws IOException {
-		classesList.stream().forEach(throwingConsumerWrapper(f -> {File file = new File(classesDirectory, f.concat(extension)); Files.touch(file);}));
-	}
-
-	@FunctionalInterface
-	public interface ThrowingConsumer<T, E extends Exception> {
-	    void accept(T t) throws E;
-	}
-	
-	//https://www.baeldung.com/java-lambda-exceptions
-	static <T> Consumer<T> throwingConsumerWrapper(
-	  ThrowingConsumer<T, Exception> throwingConsumer) {
-	    return i -> {
-	        try {
-	            throwingConsumer.accept(i);
-	        } catch (Exception e) {
-	            throw new RuntimeException(e);
-	        }
-	    };
+		for (String className : classesList) {
+			File file = new File(classesDirectory, className.concat(extension));
+			if (!file.createNewFile() && !file.setLastModified(System.currentTimeMillis())) {
+				throw new IOException("Unable to update timestamp for " + file);
+			}
+		}
 	}
 
 }
