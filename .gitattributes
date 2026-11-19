@@ -1,1 +1,1 @@
-mvnw.cmd text eol=crlf
+mvnw.cmd -text
