@@ -1,6 +1,5 @@
 package org.quickfixj;
 
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -31,71 +30,70 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**
- * Goal that prunes specified classes 
+ * Goal that prunes specified classes
  * This is intended to be used before javadoc and packaging to reduce memory requirements and build time
  */
-@Mojo( name = "prune", defaultPhase = LifecyclePhase.INSTALL )
+@Mojo(name = "prune", defaultPhase = LifecyclePhase.INSTALL)
 public class ClassPrunerMojo extends AbstractMojo {
-    
+
     /**
      * <code>fileSet</code> defining the QFJ Dictionary Locations.
      */
-    @Parameter ( property = "fileset", required = true )
+    @Parameter(property = "fileset", required = true)
     private FileSet fileset;
 
     /**
      * Location of classes to delete
      */
-    @Parameter( defaultValue = "classes", property = "classesDirectory", required = true )
+    @Parameter(defaultValue = "classes", property = "classesDirectory", required = true)
     private File classesDirectory;
 
     /**
      * Location of the generated source to delete
      */
-    @Parameter( defaultValue = "generated-sources", property = "generatedSourcesDirectory", required = true )
+    @Parameter(defaultValue = "generated-sources", property = "generatedSourcesDirectory", required = true)
     private File generatedSourcesDirectory;
 
-    
-    public void execute()
-        throws MojoExecutionException
-    {
+    public void execute() throws MojoExecutionException {
         this.getLog().info("executing mojo.");
-        
-        if ( !classesDirectory.exists() || !classesDirectory.isDirectory() )
-        {
-            String errorMsg = new StringBuilder(classesDirectory.getAbsolutePath()).append(" must exist and be a directory.").toString();
+
+        if (!classesDirectory.exists() || !classesDirectory.isDirectory()) {
+            String errorMsg = new StringBuilder(classesDirectory.getAbsolutePath())
+                    .append(" must exist and be a directory.").toString();
             this.getLog().error(errorMsg.toString());
-            throw new MojoExecutionException( errorMsg.toString() );
+            throw new MojoExecutionException(errorMsg.toString());
         } else {
-            this.getLog().info(new StringBuilder("Classes Directory : ").append(classesDirectory.getAbsolutePath()).toString());
+            this.getLog().info(
+                    new StringBuilder("Classes Directory : ").append(classesDirectory.getAbsolutePath()).toString());
         }
-        
-        if ( !generatedSourcesDirectory.exists() || !generatedSourcesDirectory.isDirectory() )
-        {
-            String errorMsg = new StringBuilder(generatedSourcesDirectory.getAbsolutePath()).append(" must exist and be a directory.").toString();
+
+        if (!generatedSourcesDirectory.exists() || !generatedSourcesDirectory.isDirectory()) {
+            String errorMsg = new StringBuilder(generatedSourcesDirectory.getAbsolutePath())
+                    .append(" must exist and be a directory.").toString();
             this.getLog().error(errorMsg.toString());
-            throw new MojoExecutionException( errorMsg.toString() );
+            throw new MojoExecutionException(errorMsg.toString());
         } else {
-            this.getLog().info(new StringBuilder("Generated Sources Directory : ").append(generatedSourcesDirectory.getAbsolutePath()).toString());
+            this.getLog().info(new StringBuilder("Generated Sources Directory : ")
+                    .append(generatedSourcesDirectory.getAbsolutePath()).toString());
         }
-        
+
         if (null == fileset) {
             String errorMsg = "fileset must not be null.";
             this.getLog().error(errorMsg);
-            throw new MojoExecutionException( errorMsg );
+            throw new MojoExecutionException(errorMsg);
         }
 
         Set<String> fieldNames = new HashSet<String>();
 
         collectFieldNames(fieldNames);
-        
+
         try {
             pruneGeneratedSources(fieldNames);
             pruneClasses(fieldNames);
         } catch (IOException e) {
             String errorMsg = "Exception pruning directories.";
             this.getLog().error(errorMsg, e);
-            throw new MojoExecutionException( errorMsg, e);
+            throw new MojoExecutionException(errorMsg, e);
         }
     }
 
@@ -106,30 +104,27 @@ public class ClassPrunerMojo extends AbstractMojo {
     private void pruneGeneratedSources(Set<String> fieldNames) throws IOException {
         prune(fieldNames, this.generatedSourcesDirectory, ".java", "Java source", "Java sources");
     }
-    
+
     private void prune(Set<String> fieldNames, File targetDirectory, String fileSuffix, String descriptor,
             String pluralDescriptor) throws IOException {
         Set<String> files = listFiles(targetDirectory);
-        Set<String> namesOfFilesToKeep =  fieldNames.stream().map(file -> new StringBuilder(file).append(fileSuffix).toString()).collect(Collectors.toSet());
+        Set<String> namesOfFilesToKeep = fieldNames.stream()
+                .map(file -> new StringBuilder(file).append(fileSuffix).toString()).collect(Collectors.toSet());
         files.removeAll(namesOfFilesToKeep);
         List<String> fileList = new ArrayList<String>(files);
         Collections.sort(fileList);
         this.getLog().info(pluralDescriptor + " to delete : " + fileList.size());
-        for (String fileName  : fileList) {
+        for (String fileName : fileList) {
             this.getLog().debug("Deleting " + descriptor + " : " + fileName);
-            File file = new File( targetDirectory, fileName );
+            File file = new File(targetDirectory, fileName);
             Files.delete(file.toPath());
         }
     }
-    
+
     private static Set<String> listFiles(File directory) throws IOException {
         try (Stream<Path> stream = Files.list(directory.toPath())) {
-            return stream
-              .filter(file -> !Files.isDirectory(file))
-              .map(Path::getFileName)
-              .map(Path::toString)
-              .filter(fileName -> !fileName.matches(".*\\.xml"))
-              .collect(Collectors.toSet());
+            return stream.filter(file -> !Files.isDirectory(file)).map(Path::getFileName).map(Path::toString)
+                    .filter(fileName -> !fileName.matches(".*\\.xml")).collect(Collectors.toSet());
         }
     }
 
@@ -145,8 +140,8 @@ public class ClassPrunerMojo extends AbstractMojo {
             this.getLog().error(msg, e);
             throw new MojoExecutionException(msg, e);
         }
-        
-        for (String fileName: fileNamesToParse) {
+
+        for (String fileName : fileNamesToParse) {
             Document document;
             try {
                 document = db.parse(new File(fileName));
@@ -160,7 +155,7 @@ public class ClassPrunerMojo extends AbstractMojo {
                 throw new MojoExecutionException(msg, e);
             }
         }
-        
+
         List<String> fieldList = new ArrayList<String>(fieldNames);
         Collections.sort(fieldList);
         for (String fieldName : fieldList) {
@@ -172,22 +167,22 @@ public class ClassPrunerMojo extends AbstractMojo {
     private Set<String> collectFileNameToParse() {
         FileSetManager fileSetManager = new FileSetManager();
         this.getLog().info("fileset " + fileset.toString());
-        
+
         String currentDir = System.getProperty("user.dir");
         this.getLog().info("Current working directory : " + currentDir);
-        
-        Set<String> includedFiles = new HashSet<String>(Arrays.asList(fileSetManager.getIncludedFiles( fileset )));
+
+        Set<String> includedFiles = new HashSet<String>(Arrays.asList(fileSetManager.getIncludedFiles(fileset)));
         Set<String> fileNamesToParse = new HashSet<String>();
-        
+
         String baseDirectory = fileset.getDirectory();
-        for (String includedFile: includedFiles) {
+        for (String includedFile : includedFiles) {
             this.getLog().info("will parse file : " + includedFile);
             String fileName = new StringBuilder(baseDirectory).append(File.separator).append(includedFile).toString();
             fileNamesToParse.add(fileName);
         }
         return fileNamesToParse;
     }
-    
+
     private static void addNames(Element element, String path, Set<String> fieldNames) {
         int separatorOffset = path.indexOf("/");
         if (separatorOffset == -1) {

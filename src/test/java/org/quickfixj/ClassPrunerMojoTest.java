@@ -1,6 +1,5 @@
 package org.quickfixj;
 
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -21,359 +20,141 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 @MojoTest
-public class ClassPrunerMojoTest
-{
-	private List<String> classesList = new ArrayList<String>(Arrays.asList(
-			 "Account"
-			,"AccruedInterestAmt"
-			,"AccruedInterestRate"
-			,"AdvId"
-			,"AdvRefID"
-			,"AdvSide"
-			,"AdvTransType"
-			,"AllocAccount"
-			,"AllocAvgPx"
-			,"AllocHandlInst"
-			,"AllocID"
-			,"AllocLinkID"
-			,"AllocLinkType"
-			,"AllocNetMoney"
-			,"AllocRejCode"
-			,"AllocShares"
-			,"AllocStatus"
-			,"AllocText"
-			,"AllocTransType"
-			,"AvgPrxPrecision"
-			,"AvgPx"
-			,"BeginSeqNo"
-			,"BeginString"
-			,"BidForwardPoints"
-			,"BidPx"
-			,"BidSize"
-			,"BidSpotRate"
-			,"BodyLength"
-			,"BrokerOfCredit"
-			,"CashOrderQty"
-			,"CashSettlAgentAcctName"
-			,"CashSettlAgentAcctNum"
-			,"CashSettlAgentCode"
-			,"CashSettlAgentContactName"
-			,"CashSettlAgentContactPhone"
-			,"CashSettlAgentName"
-			,"CheckSum"
-			,"ClientID"
-			,"ClOrdID"
-			,"Commission"
-			,"CommType"
-			,"CoveredOrUncovered"
-			,"CumQty"
-			,"Currency"
-			,"CustomerOrFirm"
-			,"CxlQty"
-			,"CxlRejReason"
-			,"CxlType"
-			,"DeliverToCompID"
-			,"DeliverToLocationID"
-			,"DeliverToSubID"
-			,"DKReason"
-			,"DlvyInst"
-			,"EffectiveTime"
-			,"EmailThreadID"
-			,"EmailType"
-			,"EncryptMethod"
-			,"EndSeqNo"
-			,"ExDestination"
-			,"ExecBroker"
-			,"ExecID"
-			,"ExecInst"
-			,"ExecRefID"
-			,"ExecTransType"
-			,"ExecType"
-			,"ExpireTime"
-			,"ForexReq"
-			,"FutSettDate"
-			,"FutSettDate2"
-			,"GapFillFlag"
-			,"HandlInst"
-			,"Headline"
-			,"HeartBtInt"
-			,"IDSource"
-			,"IOIID"
-			,"IOINaturalFlag"
-			,"IOIOthSvc"
-			,"IOIQltyInd"
-			,"IOIQualifier"
-			,"IOIRefID"
-			,"IOIShares"
-			,"IOITransType"
-			,"Issuer"
-			,"LastCapacity"
-			,"LastForwardPoints"
-			,"LastMkt"
-			,"LastPx"
-			,"LastShares"
-			,"LastSpotRate"
-			,"LeavesQty"
-			,"LinesOfText"
-			,"ListExecInst"
-			,"ListID"
-			,"ListNoOrds"
-			,"ListSeqNo"
-			,"LocateReqd"
-			,"MaturityDay"
-			,"MaturityMonthYear"
-			,"MaxFloor"
-			,"MaxShow"
-			,"MinQty"
-			,"MiscFeeAmt"
-			,"MiscFeeCurr"
-			,"MiscFeeType"
-			,"MsgSeqNum"
-			,"MsgType"
-			,"NetMoney"
-			,"NewSeqNo"
-			,"NoAllocs"
-			,"NoDlvyInst"
-			,"NoExecs"
-			,"NoIOIQualifiers"
-			,"NoMiscFees"
-			,"NoOrders"
-			,"NoRelatedSym"
-			,"NoRpts"
-			,"NotifyBrokerOfCredit"
-			,"NumDaysInterest"
-			,"OfferForwardPoints"
-			,"OfferPx"
-			,"OfferSize"
-			,"OfferSpotRate"
-			,"OnBehalfOfCompID"
-			,"OnBehalfOfLocationID"
-			,"OnBehalfOfSubID"
-			,"OpenClose"
-			,"OptAttribute"
-			,"OrderID"
-			,"OrderQty"
-			,"OrderQty2"
-			,"OrdRejReason"
-			,"OrdStatus"
-			,"OrdType"
-			,"OrigClOrdID"
-			,"OrigSendingTime"
-			,"OrigTime"
-			,"PegDifference"
-			,"PossDupFlag"
-			,"PossResend"
-			,"PrevClosePx"
-			,"Price"
-			,"ProcessCode"
-			,"PutOrCall"
-			,"QuoteID"
-			,"QuoteReqID"
-			,"RawData"
-			,"RawDataLength"
-			,"RefAllocID"
-			,"RefSeqNum"
-			,"RelatdSym"
-			,"ReportToExch"
-			,"ResetSeqNumFlag"
-			,"RptSeq"
-			,"Rule80A"
-			,"SecondaryOrderID"
-			,"SecureData"
-			,"SecureDataLen"
-			,"SecurityDesc"
-			,"SecurityExchange"
-			,"SecurityID"
-			,"SecuritySettlAgentAcctName"
-			,"SecuritySettlAgentAcctNum"
-			,"SecuritySettlAgentCode"
-			,"SecuritySettlAgentContactName"
-			,"SecuritySettlAgentContactPhone"
-			,"SecuritySettlAgentName"
-			,"SecurityType"
-			,"SenderCompID"
-			,"SenderLocationID"
-			,"SenderSubID"
-			,"SendingTime"
-			,"SettlBrkrCode"
-			,"SettlCurrAmt"
-			,"SettlCurrency"
-			,"SettlCurrFxRate"
-			,"SettlCurrFxRateCalc"
-			,"SettlDeliveryType"
-			,"SettlDepositoryCode"
-			,"SettlInstCode"
-			,"SettlInstID"
-			,"SettlInstMode"
-			,"SettlInstSource"
-			,"SettlInstTransType"
-			,"SettlLocation"
-			,"SettlmntTyp"
-			,"Shares"
-			,"Side"
-			,"Signature"
-			,"SignatureLength"
-			,"StandInstDbID"
-			,"StandInstDbName"
-			,"StandInstDbType"
-			,"StopPx"
-			,"StrikePrice"
-			,"Subject"
-			,"Symbol"
-			,"SymbolSfx"
-			,"TargetCompID"
-			,"TargetLocationID"
-			,"TargetSubID"
-			,"TestReqID"
-			,"Text"
-			,"TimeInForce"
-			,"TradeDate"
-			,"TransactTime"
-			,"Urgency"
-			,"URLLink"
-			,"ValidUntilTime"
-			,"ValuationBusinessCenter"
-			,"ValuationDate"
-			,"ValuationMethod"
-			,"ValuationReferenceModel"
-			,"ValuationSource"
-			,"ValuationTime"
-			,"ValueCheckAction"
-			,"ValueCheckType"
-			,"ValueOfFutures"
-			,"VegaMultiplier"
-			,"VenueType"
-			,"VerificationMethod"
-			,"VersusPurchaseDate"
-			,"VersusPurchasePrice"
-			,"Volatility"
-			,"VoluntaryRegulatoryReport"
-			,"WarningText"
-			,"WaveNo"
-			,"WireReference"
-			,"WorkingIndicator"
-			,"WtAverageLiquidity"
-			,"Yield"
-			,"YieldCalcDate"
-			,"YieldRedemptionDate"
-			,"YieldRedemptionPrice"
-			,"YieldRedemptionPriceType"
-			,"YieldType"));
-	
-    List<String> someFieldNamesThatShouldBePruned = 
-            new ArrayList<>(Arrays.asList("ValuationBusinessCenter",
-                                          "ValuationDate",
-                                          "ValuationMethod",
-                                          "ValuationReferenceModel",
-                                          "ValuationSource",
-                                          "ValuationTime",
-                                          "ValueCheckAction",
-                                          "ValueCheckType",
-                                          "ValueOfFutures",
-                                          "VegaMultiplier",
-                                          "VenueType",
-                                          "VerificationMethod",
-                                          "VersusPurchaseDate",
-                                          "VersusPurchasePrice",
-                                          "Volatility",
-                                          "VoluntaryRegulatoryReport",
-                                          "WarningText",
-                                          "WireReference",
-                                          "WorkingIndicator",
-                                          "WtAverageLiquidity",
-                                          "Yield",
-                                          "YieldCalcDate",
-                                          "YieldRedemptionDate",
-                                          "YieldRedemptionPrice",
-                                          "YieldRedemptionPriceType",
-                                          "YieldType"));
+public class ClassPrunerMojoTest {
+    private List<String> classesList = new ArrayList<String>(Arrays.asList("Account", "AccruedInterestAmt",
+            "AccruedInterestRate", "AdvId", "AdvRefID", "AdvSide", "AdvTransType", "AllocAccount", "AllocAvgPx",
+            "AllocHandlInst", "AllocID", "AllocLinkID", "AllocLinkType", "AllocNetMoney", "AllocRejCode", "AllocShares",
+            "AllocStatus", "AllocText", "AllocTransType", "AvgPrxPrecision", "AvgPx", "BeginSeqNo", "BeginString",
+            "BidForwardPoints", "BidPx", "BidSize", "BidSpotRate", "BodyLength", "BrokerOfCredit", "CashOrderQty",
+            "CashSettlAgentAcctName", "CashSettlAgentAcctNum", "CashSettlAgentCode", "CashSettlAgentContactName",
+            "CashSettlAgentContactPhone", "CashSettlAgentName", "CheckSum", "ClientID", "ClOrdID", "Commission",
+            "CommType", "CoveredOrUncovered", "CumQty", "Currency", "CustomerOrFirm", "CxlQty", "CxlRejReason",
+            "CxlType", "DeliverToCompID", "DeliverToLocationID", "DeliverToSubID", "DKReason", "DlvyInst",
+            "EffectiveTime", "EmailThreadID", "EmailType", "EncryptMethod", "EndSeqNo", "ExDestination", "ExecBroker",
+            "ExecID", "ExecInst", "ExecRefID", "ExecTransType", "ExecType", "ExpireTime", "ForexReq", "FutSettDate",
+            "FutSettDate2", "GapFillFlag", "HandlInst", "Headline", "HeartBtInt", "IDSource", "IOIID", "IOINaturalFlag",
+            "IOIOthSvc", "IOIQltyInd", "IOIQualifier", "IOIRefID", "IOIShares", "IOITransType", "Issuer",
+            "LastCapacity", "LastForwardPoints", "LastMkt", "LastPx", "LastShares", "LastSpotRate", "LeavesQty",
+            "LinesOfText", "ListExecInst", "ListID", "ListNoOrds", "ListSeqNo", "LocateReqd", "MaturityDay",
+            "MaturityMonthYear", "MaxFloor", "MaxShow", "MinQty", "MiscFeeAmt", "MiscFeeCurr", "MiscFeeType",
+            "MsgSeqNum", "MsgType", "NetMoney", "NewSeqNo", "NoAllocs", "NoDlvyInst", "NoExecs", "NoIOIQualifiers",
+            "NoMiscFees", "NoOrders", "NoRelatedSym", "NoRpts", "NotifyBrokerOfCredit", "NumDaysInterest",
+            "OfferForwardPoints", "OfferPx", "OfferSize", "OfferSpotRate", "OnBehalfOfCompID", "OnBehalfOfLocationID",
+            "OnBehalfOfSubID", "OpenClose", "OptAttribute", "OrderID", "OrderQty", "OrderQty2", "OrdRejReason",
+            "OrdStatus", "OrdType", "OrigClOrdID", "OrigSendingTime", "OrigTime", "PegDifference", "PossDupFlag",
+            "PossResend", "PrevClosePx", "Price", "ProcessCode", "PutOrCall", "QuoteID", "QuoteReqID", "RawData",
+            "RawDataLength", "RefAllocID", "RefSeqNum", "RelatdSym", "ReportToExch", "ResetSeqNumFlag", "RptSeq",
+            "Rule80A", "SecondaryOrderID", "SecureData", "SecureDataLen", "SecurityDesc", "SecurityExchange",
+            "SecurityID", "SecuritySettlAgentAcctName", "SecuritySettlAgentAcctNum", "SecuritySettlAgentCode",
+            "SecuritySettlAgentContactName", "SecuritySettlAgentContactPhone", "SecuritySettlAgentName", "SecurityType",
+            "SenderCompID", "SenderLocationID", "SenderSubID", "SendingTime", "SettlBrkrCode", "SettlCurrAmt",
+            "SettlCurrency", "SettlCurrFxRate", "SettlCurrFxRateCalc", "SettlDeliveryType", "SettlDepositoryCode",
+            "SettlInstCode", "SettlInstID", "SettlInstMode", "SettlInstSource", "SettlInstTransType", "SettlLocation",
+            "SettlmntTyp", "Shares", "Side", "Signature", "SignatureLength", "StandInstDbID", "StandInstDbName",
+            "StandInstDbType", "StopPx", "StrikePrice", "Subject", "Symbol", "SymbolSfx", "TargetCompID",
+            "TargetLocationID", "TargetSubID", "TestReqID", "Text", "TimeInForce", "TradeDate", "TransactTime",
+            "Urgency", "URLLink", "ValidUntilTime", "ValuationBusinessCenter", "ValuationDate", "ValuationMethod",
+            "ValuationReferenceModel", "ValuationSource", "ValuationTime", "ValueCheckAction", "ValueCheckType",
+            "ValueOfFutures", "VegaMultiplier", "VenueType", "VerificationMethod", "VersusPurchaseDate",
+            "VersusPurchasePrice", "Volatility", "VoluntaryRegulatoryReport", "WarningText", "WaveNo", "WireReference",
+            "WorkingIndicator", "WtAverageLiquidity", "Yield", "YieldCalcDate", "YieldRedemptionDate",
+            "YieldRedemptionPrice", "YieldRedemptionPriceType", "YieldType"));
+
+    List<String> someFieldNamesThatShouldBePruned = new ArrayList<>(Arrays.asList("ValuationBusinessCenter",
+            "ValuationDate", "ValuationMethod", "ValuationReferenceModel", "ValuationSource", "ValuationTime",
+            "ValueCheckAction", "ValueCheckType", "ValueOfFutures", "VegaMultiplier", "VenueType", "VerificationMethod",
+            "VersusPurchaseDate", "VersusPurchasePrice", "Volatility", "VoluntaryRegulatoryReport", "WarningText",
+            "WireReference", "WorkingIndicator", "WtAverageLiquidity", "Yield", "YieldCalcDate", "YieldRedemptionDate",
+            "YieldRedemptionPrice", "YieldRedemptionPriceType", "YieldType"));
     private File classesDirectory;
     private File generatedSourcesDirectory;
-    
-	@AfterEach
-	public void clearDown() throws Exception {
-		ClassPrunerMojoTest.clearDownDirectory(generatedSourcesDirectory);
-		ClassPrunerMojoTest.clearDownDirectory(classesDirectory);
-	}
-	
-	private static void clearDownDirectory(File directory) throws Exception {
-		if (null != directory && directory.exists()) {
-			FileUtils.cleanDirectory(directory);
-		}
-		directory.delete();
-	}
+
+    @AfterEach
+    public void clearDown() throws Exception {
+        ClassPrunerMojoTest.clearDownDirectory(generatedSourcesDirectory);
+        ClassPrunerMojoTest.clearDownDirectory(classesDirectory);
+    }
+
+    private static void clearDownDirectory(File directory) throws Exception {
+        if (null != directory && directory.exists()) {
+            FileUtils.cleanDirectory(directory);
+        }
+        directory.delete();
+    }
 
     /**
-     * This test represents pruning Field classes that do not exist if FIX 5.0sp2 and earlier. 
-     * The inputs are QFJ dictionaries for FIX 5.0sp2 (and some earlier versions) and 
+     * This test represents pruning Field classes that do not exist if FIX 5.0sp2 and earlier.
+     * The inputs are QFJ dictionaries for FIX 5.0sp2 (and some earlier versions) and
      * directories that contain files with the names of Fields found in FIX Latest.
-     * The files for Fields found in FIX 5.0sp2 and earlier are retained, the excess files are pruned.  
+     * The files for Fields found in FIX 5.0sp2 and earlier are retained, the excess files are pruned.
      * @throws Exception if any
      */
     @Test
-    public void testPrune(@InjectMojo(goal = "prune", pom = "classpath:/project-to-test/pom.xml") ClassPrunerMojo myMojo)
-            throws Exception
-    {
+    public void testPrune(
+            @InjectMojo(goal = "prune", pom = "classpath:/project-to-test/pom.xml") ClassPrunerMojo myMojo)
+            throws Exception {
         File pom = new File("target/test-classes/project-to-test/");
-        assertNotNull( pom );
-        assertTrue( pom.exists() );
+        assertNotNull(pom);
+        assertTrue(pom.exists());
 
-        assertNotNull( myMojo );
+        assertNotNull(myMojo);
 
-        classesDirectory = MojoExtension.getVariableValueFromObject( myMojo, "classesDirectory" );
-        assertNotNull( classesDirectory );
+        classesDirectory = MojoExtension.getVariableValueFromObject(myMojo, "classesDirectory");
+        assertNotNull(classesDirectory);
         if (!classesDirectory.exists()) {
-        	classesDirectory.mkdirs();
+            classesDirectory.mkdirs();
         }
         //TODO create directory, populate with test files
-        myMojo.getLog().info("classesDirectory : " + classesDirectory.getAbsolutePath() );
+        myMojo.getLog().info("classesDirectory : " + classesDirectory.getAbsolutePath());
         createFilesForTest(classesList, classesDirectory, ".class");
         createFilesForTest(someFieldNamesThatShouldBePruned, classesDirectory, ".class");
 
-        generatedSourcesDirectory = MojoExtension.getVariableValueFromObject( myMojo, "generatedSourcesDirectory" );
-        assertNotNull( generatedSourcesDirectory );
+        generatedSourcesDirectory = MojoExtension.getVariableValueFromObject(myMojo, "generatedSourcesDirectory");
+        assertNotNull(generatedSourcesDirectory);
         if (!generatedSourcesDirectory.exists()) {
-        	generatedSourcesDirectory.mkdirs();
+            generatedSourcesDirectory.mkdirs();
         }
-        myMojo.getLog().info("generatedSourcesDirectory : " + generatedSourcesDirectory.getAbsolutePath() );
+        myMojo.getLog().info("generatedSourcesDirectory : " + generatedSourcesDirectory.getAbsolutePath());
         createFilesForTest(classesList, generatedSourcesDirectory, ".java");
-        createFilesForTest(someFieldNamesThatShouldBePruned, generatedSourcesDirectory,  ".java");
-        
-        myMojo.execute();        
-        
-        Object variableValueFromObject = MojoExtension.getVariableValueFromObject( myMojo, "fileset" );
-        FileSet dictionaryFileSet = ( FileSet ) variableValueFromObject;
-        assertNotNull( dictionaryFileSet );
+        createFilesForTest(someFieldNamesThatShouldBePruned, generatedSourcesDirectory, ".java");
+
+        myMojo.execute();
+
+        Object variableValueFromObject = MojoExtension.getVariableValueFromObject(myMojo, "fileset");
+        FileSet dictionaryFileSet = (FileSet) variableValueFromObject;
+        assertNotNull(dictionaryFileSet);
 
         // The following are based on files created above
-        List<String> someFieldNamesThatShouldStillExist = new ArrayList<>(Arrays.asList("WaveNo", "ValidUntilTime", "Account"));
-        
+        List<String> someFieldNamesThatShouldStillExist = new ArrayList<>(
+                Arrays.asList("WaveNo", "ValidUntilTime", "Account"));
+
         for (String fieldName : someFieldNamesThatShouldStillExist) {
-            File source = new File( generatedSourcesDirectory, fieldName.concat(".java") );
-            assertTrue( source.exists() );
-            File clazz = new File( classesDirectory, fieldName.concat(".class") );
-            assertTrue( clazz.exists() );
+            File source = new File(generatedSourcesDirectory, fieldName.concat(".java"));
+            assertTrue(source.exists());
+            File clazz = new File(classesDirectory, fieldName.concat(".class"));
+            assertTrue(clazz.exists());
         }
-        
+
         for (String fieldName : someFieldNamesThatShouldBePruned) {
-            File source = new File( generatedSourcesDirectory, fieldName.concat(".java") );
-            assertFalse( source.exists() );
-            File clazz = new File( classesDirectory, fieldName.concat(".class") );
-            assertFalse( clazz.exists() );
+            File source = new File(generatedSourcesDirectory, fieldName.concat(".java"));
+            assertFalse(source.exists());
+            File clazz = new File(classesDirectory, fieldName.concat(".class"));
+            assertFalse(clazz.exists());
         }
-        
+
         int numberOfFieldsFromTheCombinedDictionaries = 209;
         assertEquals(classesDirectory.list().length, numberOfFieldsFromTheCombinedDictionaries);
         assertEquals(generatedSourcesDirectory.list().length, numberOfFieldsFromTheCombinedDictionaries);
     }
 
-	private static void createFilesForTest(List<String> classesList, File classesDirectory, String extension) throws IOException {
-		for (String className : classesList) {
-			File file = new File(classesDirectory, className.concat(extension));
-			if (!file.createNewFile() && !file.setLastModified(System.currentTimeMillis())) {
-				throw new IOException("Unable to update timestamp for " + file);
-			}
-		}
-	}
+    private static void createFilesForTest(List<String> classesList, File classesDirectory, String extension)
+            throws IOException {
+        for (String className : classesList) {
+            File file = new File(classesDirectory, className.concat(extension));
+            if (!file.createNewFile() && !file.setLastModified(System.currentTimeMillis())) {
+                throw new IOException("Unable to update timestamp for " + file);
+            }
+        }
+    }
 
 }
