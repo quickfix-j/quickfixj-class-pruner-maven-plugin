@@ -329,6 +329,7 @@ public class ClassPrunerMojoTest
         myMojo.getLog().info("classesDirectory : " + classesDirectory.getAbsolutePath() );
         createFilesForTest(classesList, classesDirectory, ".class");
         createFilesForTest(someFieldNamesThatShouldBePruned, classesDirectory, ".class");
+        new File(classesDirectory, "should-not-delete.xml").createNewFile();
 
         generatedSourcesDirectory = MojoExtension.getVariableValueFromObject( myMojo, "generatedSourcesDirectory" );
         assertNotNull( generatedSourcesDirectory );
@@ -338,6 +339,7 @@ public class ClassPrunerMojoTest
         myMojo.getLog().info("generatedSourcesDirectory : " + generatedSourcesDirectory.getAbsolutePath() );
         createFilesForTest(classesList, generatedSourcesDirectory, ".java");
         createFilesForTest(someFieldNamesThatShouldBePruned, generatedSourcesDirectory,  ".java");
+        new File(generatedSourcesDirectory, "should-not-delete.xml").createNewFile();
         
         myMojo.execute();        
         
@@ -363,8 +365,10 @@ public class ClassPrunerMojoTest
         }
         
         int numberOfFieldsFromTheCombinedDictionaries = 209;
-        assertEquals(classesDirectory.list().length, numberOfFieldsFromTheCombinedDictionaries);
-        assertEquals(generatedSourcesDirectory.list().length, numberOfFieldsFromTheCombinedDictionaries);
+        assertEquals(classesDirectory.list().length, numberOfFieldsFromTheCombinedDictionaries + 1);
+        assertEquals(generatedSourcesDirectory.list().length, numberOfFieldsFromTheCombinedDictionaries + 1);
+        assertTrue(new File(classesDirectory, "should-not-delete.xml").exists());
+        assertTrue(new File(generatedSourcesDirectory, "should-not-delete.xml").exists());
     }
 
 	private static void createFilesForTest(List<String> classesList, File classesDirectory, String extension) throws IOException {
