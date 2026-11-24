@@ -365,6 +365,7 @@ public class ClassPrunerMojoTest
         }
         
         int numberOfFieldsFromTheCombinedDictionaries = 209;
+        // +1 accounts for the XML fixture file, which prune intentionally keeps.
         assertEquals(classesDirectory.list().length, numberOfFieldsFromTheCombinedDictionaries + 1);
         assertEquals(generatedSourcesDirectory.list().length, numberOfFieldsFromTheCombinedDictionaries + 1);
         assertTrue(new File(classesDirectory, "should-not-delete.xml").exists());
