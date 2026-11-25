@@ -21,51 +21,270 @@ import org.junit.jupiter.api.Test;
 
 @MojoTest
 public class ClassPrunerMojoTest {
-    private List<String> classesList = new ArrayList<String>(Arrays.asList("Account", "AccruedInterestAmt",
-            "AccruedInterestRate", "AdvId", "AdvRefID", "AdvSide", "AdvTransType", "AllocAccount", "AllocAvgPx",
-            "AllocHandlInst", "AllocID", "AllocLinkID", "AllocLinkType", "AllocNetMoney", "AllocRejCode", "AllocShares",
-            "AllocStatus", "AllocText", "AllocTransType", "AvgPrxPrecision", "AvgPx", "BeginSeqNo", "BeginString",
-            "BidForwardPoints", "BidPx", "BidSize", "BidSpotRate", "BodyLength", "BrokerOfCredit", "CashOrderQty",
-            "CashSettlAgentAcctName", "CashSettlAgentAcctNum", "CashSettlAgentCode", "CashSettlAgentContactName",
-            "CashSettlAgentContactPhone", "CashSettlAgentName", "CheckSum", "ClientID", "ClOrdID", "Commission",
-            "CommType", "CoveredOrUncovered", "CumQty", "Currency", "CustomerOrFirm", "CxlQty", "CxlRejReason",
-            "CxlType", "DeliverToCompID", "DeliverToLocationID", "DeliverToSubID", "DKReason", "DlvyInst",
-            "EffectiveTime", "EmailThreadID", "EmailType", "EncryptMethod", "EndSeqNo", "ExDestination", "ExecBroker",
-            "ExecID", "ExecInst", "ExecRefID", "ExecTransType", "ExecType", "ExpireTime", "ForexReq", "FutSettDate",
-            "FutSettDate2", "GapFillFlag", "HandlInst", "Headline", "HeartBtInt", "IDSource", "IOIID", "IOINaturalFlag",
-            "IOIOthSvc", "IOIQltyInd", "IOIQualifier", "IOIRefID", "IOIShares", "IOITransType", "Issuer",
-            "LastCapacity", "LastForwardPoints", "LastMkt", "LastPx", "LastShares", "LastSpotRate", "LeavesQty",
-            "LinesOfText", "ListExecInst", "ListID", "ListNoOrds", "ListSeqNo", "LocateReqd", "MaturityDay",
-            "MaturityMonthYear", "MaxFloor", "MaxShow", "MinQty", "MiscFeeAmt", "MiscFeeCurr", "MiscFeeType",
-            "MsgSeqNum", "MsgType", "NetMoney", "NewSeqNo", "NoAllocs", "NoDlvyInst", "NoExecs", "NoIOIQualifiers",
-            "NoMiscFees", "NoOrders", "NoRelatedSym", "NoRpts", "NotifyBrokerOfCredit", "NumDaysInterest",
-            "OfferForwardPoints", "OfferPx", "OfferSize", "OfferSpotRate", "OnBehalfOfCompID", "OnBehalfOfLocationID",
-            "OnBehalfOfSubID", "OpenClose", "OptAttribute", "OrderID", "OrderQty", "OrderQty2", "OrdRejReason",
-            "OrdStatus", "OrdType", "OrigClOrdID", "OrigSendingTime", "OrigTime", "PegDifference", "PossDupFlag",
-            "PossResend", "PrevClosePx", "Price", "ProcessCode", "PutOrCall", "QuoteID", "QuoteReqID", "RawData",
-            "RawDataLength", "RefAllocID", "RefSeqNum", "RelatdSym", "ReportToExch", "ResetSeqNumFlag", "RptSeq",
-            "Rule80A", "SecondaryOrderID", "SecureData", "SecureDataLen", "SecurityDesc", "SecurityExchange",
-            "SecurityID", "SecuritySettlAgentAcctName", "SecuritySettlAgentAcctNum", "SecuritySettlAgentCode",
-            "SecuritySettlAgentContactName", "SecuritySettlAgentContactPhone", "SecuritySettlAgentName", "SecurityType",
-            "SenderCompID", "SenderLocationID", "SenderSubID", "SendingTime", "SettlBrkrCode", "SettlCurrAmt",
-            "SettlCurrency", "SettlCurrFxRate", "SettlCurrFxRateCalc", "SettlDeliveryType", "SettlDepositoryCode",
-            "SettlInstCode", "SettlInstID", "SettlInstMode", "SettlInstSource", "SettlInstTransType", "SettlLocation",
-            "SettlmntTyp", "Shares", "Side", "Signature", "SignatureLength", "StandInstDbID", "StandInstDbName",
-            "StandInstDbType", "StopPx", "StrikePrice", "Subject", "Symbol", "SymbolSfx", "TargetCompID",
-            "TargetLocationID", "TargetSubID", "TestReqID", "Text", "TimeInForce", "TradeDate", "TransactTime",
-            "Urgency", "URLLink", "ValidUntilTime", "ValuationBusinessCenter", "ValuationDate", "ValuationMethod",
-            "ValuationReferenceModel", "ValuationSource", "ValuationTime", "ValueCheckAction", "ValueCheckType",
-            "ValueOfFutures", "VegaMultiplier", "VenueType", "VerificationMethod", "VersusPurchaseDate",
-            "VersusPurchasePrice", "Volatility", "VoluntaryRegulatoryReport", "WarningText", "WaveNo", "WireReference",
-            "WorkingIndicator", "WtAverageLiquidity", "Yield", "YieldCalcDate", "YieldRedemptionDate",
-            "YieldRedemptionPrice", "YieldRedemptionPriceType", "YieldType"));
+	private List<String> classesList = new ArrayList<String>(Arrays.asList(
+			 "Account"
+			,"AccruedInterestAmt"
+			,"AccruedInterestRate"
+			,"AdvId"
+			,"AdvRefID"
+			,"AdvSide"
+			,"AdvTransType"
+			,"AllocAccount"
+			,"AllocAvgPx"
+			,"AllocHandlInst"
+			,"AllocID"
+			,"AllocLinkID"
+			,"AllocLinkType"
+			,"AllocNetMoney"
+			,"AllocRejCode"
+			,"AllocShares"
+			,"AllocStatus"
+			,"AllocText"
+			,"AllocTransType"
+			,"AvgPrxPrecision"
+			,"AvgPx"
+			,"BeginSeqNo"
+			,"BeginString"
+			,"BidForwardPoints"
+			,"BidPx"
+			,"BidSize"
+			,"BidSpotRate"
+			,"BodyLength"
+			,"BrokerOfCredit"
+			,"CashOrderQty"
+			,"CashSettlAgentAcctName"
+			,"CashSettlAgentAcctNum"
+			,"CashSettlAgentCode"
+			,"CashSettlAgentContactName"
+			,"CashSettlAgentContactPhone"
+			,"CashSettlAgentName"
+			,"CheckSum"
+			,"ClientID"
+			,"ClOrdID"
+			,"Commission"
+			,"CommType"
+			,"CoveredOrUncovered"
+			,"CumQty"
+			,"Currency"
+			,"CustomerOrFirm"
+			,"CxlQty"
+			,"CxlRejReason"
+			,"CxlType"
+			,"DeliverToCompID"
+			,"DeliverToLocationID"
+			,"DeliverToSubID"
+			,"DKReason"
+			,"DlvyInst"
+			,"EffectiveTime"
+			,"EmailThreadID"
+			,"EmailType"
+			,"EncryptMethod"
+			,"EndSeqNo"
+			,"ExDestination"
+			,"ExecBroker"
+			,"ExecID"
+			,"ExecInst"
+			,"ExecRefID"
+			,"ExecTransType"
+			,"ExecType"
+			,"ExpireTime"
+			,"ForexReq"
+			,"FutSettDate"
+			,"FutSettDate2"
+			,"GapFillFlag"
+			,"HandlInst"
+			,"Headline"
+			,"HeartBtInt"
+			,"IDSource"
+			,"IOIID"
+			,"IOINaturalFlag"
+			,"IOIOthSvc"
+			,"IOIQltyInd"
+			,"IOIQualifier"
+			,"IOIRefID"
+			,"IOIShares"
+			,"IOITransType"
+			,"Issuer"
+			,"LastCapacity"
+			,"LastForwardPoints"
+			,"LastMkt"
+			,"LastPx"
+			,"LastShares"
+			,"LastSpotRate"
+			,"LeavesQty"
+			,"LinesOfText"
+			,"ListExecInst"
+			,"ListID"
+			,"ListNoOrds"
+			,"ListSeqNo"
+			,"LocateReqd"
+			,"MaturityDay"
+			,"MaturityMonthYear"
+			,"MaxFloor"
+			,"MaxShow"
+			,"MinQty"
+			,"MiscFeeAmt"
+			,"MiscFeeCurr"
+			,"MiscFeeType"
+			,"MsgSeqNum"
+			,"MsgType"
+			,"NetMoney"
+			,"NewSeqNo"
+			,"NoAllocs"
+			,"NoDlvyInst"
+			,"NoExecs"
+			,"NoIOIQualifiers"
+			,"NoMiscFees"
+			,"NoOrders"
+			,"NoRelatedSym"
+			,"NoRpts"
+			,"NotifyBrokerOfCredit"
+			,"NumDaysInterest"
+			,"OfferForwardPoints"
+			,"OfferPx"
+			,"OfferSize"
+			,"OfferSpotRate"
+			,"OnBehalfOfCompID"
+			,"OnBehalfOfLocationID"
+			,"OnBehalfOfSubID"
+			,"OpenClose"
+			,"OptAttribute"
+			,"OrderID"
+			,"OrderQty"
+			,"OrderQty2"
+			,"OrdRejReason"
+			,"OrdStatus"
+			,"OrdType"
+			,"OrigClOrdID"
+			,"OrigSendingTime"
+			,"OrigTime"
+			,"PegDifference"
+			,"PossDupFlag"
+			,"PossResend"
+			,"PrevClosePx"
+			,"Price"
+			,"ProcessCode"
+			,"PutOrCall"
+			,"QuoteID"
+			,"QuoteReqID"
+			,"RawData"
+			,"RawDataLength"
+			,"RefAllocID"
+			,"RefSeqNum"
+			,"RelatdSym"
+			,"ReportToExch"
+			,"ResetSeqNumFlag"
+			,"RptSeq"
+			,"Rule80A"
+			,"SecondaryOrderID"
+			,"SecureData"
+			,"SecureDataLen"
+			,"SecurityDesc"
+			,"SecurityExchange"
+			,"SecurityID"
+			,"SecuritySettlAgentAcctName"
+			,"SecuritySettlAgentAcctNum"
+			,"SecuritySettlAgentCode"
+			,"SecuritySettlAgentContactName"
+			,"SecuritySettlAgentContactPhone"
+			,"SecuritySettlAgentName"
+			,"SecurityType"
+			,"SenderCompID"
+			,"SenderLocationID"
+			,"SenderSubID"
+			,"SendingTime"
+			,"SettlBrkrCode"
+			,"SettlCurrAmt"
+			,"SettlCurrency"
+			,"SettlCurrFxRate"
+			,"SettlCurrFxRateCalc"
+			,"SettlDeliveryType"
+			,"SettlDepositoryCode"
+			,"SettlInstCode"
+			,"SettlInstID"
+			,"SettlInstMode"
+			,"SettlInstSource"
+			,"SettlInstTransType"
+			,"SettlLocation"
+			,"SettlmntTyp"
+			,"Shares"
+			,"Side"
+			,"Signature"
+			,"SignatureLength"
+			,"StandInstDbID"
+			,"StandInstDbName"
+			,"StandInstDbType"
+			,"StopPx"
+			,"StrikePrice"
+			,"Subject"
+			,"Symbol"
+			,"SymbolSfx"
+			,"TargetCompID"
+			,"TargetLocationID"
+			,"TargetSubID"
+			,"TestReqID"
+			,"Text"
+			,"TimeInForce"
+			,"TradeDate"
+			,"TransactTime"
+			,"Urgency"
+			,"URLLink"
+			,"ValidUntilTime"
+			,"ValuationBusinessCenter"
+			,"ValuationDate"
+			,"ValuationMethod"
+			,"ValuationReferenceModel"
+			,"ValuationSource"
+			,"ValuationTime"
+			,"ValueCheckAction"
+			,"ValueCheckType"
+			,"ValueOfFutures"
+			,"VegaMultiplier"
+			,"VenueType"
+			,"VerificationMethod"
+			,"VersusPurchaseDate"
+			,"VersusPurchasePrice"
+			,"Volatility"
+			,"VoluntaryRegulatoryReport"
+			,"WarningText"
+			,"WaveNo"
+			,"WireReference"
+			,"WorkingIndicator"
+			,"WtAverageLiquidity"
+			,"Yield"
+			,"YieldCalcDate"
+			,"YieldRedemptionDate"
+			,"YieldRedemptionPrice"
+			,"YieldRedemptionPriceType"
+			,"YieldType"));
 
-    List<String> someFieldNamesThatShouldBePruned = new ArrayList<>(Arrays.asList("ValuationBusinessCenter",
-            "ValuationDate", "ValuationMethod", "ValuationReferenceModel", "ValuationSource", "ValuationTime",
-            "ValueCheckAction", "ValueCheckType", "ValueOfFutures", "VegaMultiplier", "VenueType", "VerificationMethod",
-            "VersusPurchaseDate", "VersusPurchasePrice", "Volatility", "VoluntaryRegulatoryReport", "WarningText",
-            "WireReference", "WorkingIndicator", "WtAverageLiquidity", "Yield", "YieldCalcDate", "YieldRedemptionDate",
-            "YieldRedemptionPrice", "YieldRedemptionPriceType", "YieldType"));
+    List<String> someFieldNamesThatShouldBePruned =
+            new ArrayList<>(Arrays.asList("ValuationBusinessCenter",
+                                          "ValuationDate",
+                                          "ValuationMethod",
+                                          "ValuationReferenceModel",
+                                          "ValuationSource",
+                                          "ValuationTime",
+                                          "ValueCheckAction",
+                                          "ValueCheckType",
+                                          "ValueOfFutures",
+                                          "VegaMultiplier",
+                                          "VenueType",
+                                          "VerificationMethod",
+                                          "VersusPurchaseDate",
+                                          "VersusPurchasePrice",
+                                          "Volatility",
+                                          "VoluntaryRegulatoryReport",
+                                          "WarningText",
+                                          "WireReference",
+                                          "WorkingIndicator",
+                                          "WtAverageLiquidity",
+                                          "Yield",
+                                          "YieldCalcDate",
+                                          "YieldRedemptionDate",
+                                          "YieldRedemptionPrice",
+                                          "YieldRedemptionPriceType",
+                                          "YieldType"));
     private File classesDirectory;
     private File generatedSourcesDirectory;
 
